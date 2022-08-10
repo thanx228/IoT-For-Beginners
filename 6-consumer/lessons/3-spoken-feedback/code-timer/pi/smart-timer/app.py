@@ -56,10 +56,11 @@ def convert_speech_to_text(buffer):
     url = f'https://{location}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1'
 
     headers = {
-        'Authorization': 'Bearer ' + get_access_token(),
+        'Authorization': f'Bearer {get_access_token()}',
         'Content-Type': f'audio/wav; codecs=audio/pcm; samplerate={rate}',
-        'Accept': 'application/json;text/xml'
+        'Accept': 'application/json;text/xml',
     }
+
 
     params = {
         'language': language
@@ -84,7 +85,7 @@ def get_timer_time(text):
 
     if response.status_code != 200:
         return 0
-    
+
     payload = response.json()
     return payload['seconds']
 

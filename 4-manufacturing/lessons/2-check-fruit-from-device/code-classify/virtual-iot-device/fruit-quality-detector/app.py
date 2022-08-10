@@ -22,7 +22,7 @@ prediction_url = '<prediction_url>'
 prediction_key = '<prediction key>'
 
 parts = prediction_url.split('/')
-endpoint = 'https://' + parts[2]
+endpoint = f'https://{parts[2]}'
 project_id = parts[6]
 iteration_name = parts[9]
 

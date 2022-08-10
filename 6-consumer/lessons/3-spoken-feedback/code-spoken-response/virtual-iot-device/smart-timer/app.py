@@ -55,7 +55,7 @@ def get_timer_time(text):
 
     if response.status_code != 200:
         return 0
-    
+
     payload = response.json()
     return payload['seconds']
 

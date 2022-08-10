@@ -52,14 +52,14 @@ first_voice = next(x for x in voices if x.locale.lower() == language.lower())
 speech_config.speech_synthesis_voice_name = first_voice.short_name
 
 def translate_text(text):
-    url = f'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
+    url = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
 
     headers = {
         'Ocp-Apim-Subscription-Key': translator_api_key,
         'Ocp-Apim-Subscription-Region': location,
         'Content-type': 'application/json'
     }
-    
+
     params = {
         'from': server_language,
         'to': language
@@ -70,7 +70,7 @@ def translate_text(text):
     }]
 
     response = requests.post(url, headers=headers, params=params, json=body)
-    
+
     return response.json()[0]['translations'][0]['text']
 
 def say(text):
@@ -108,13 +108,12 @@ def create_timer(total_seconds):
     announcement += 'timer started.'
     say(announcement)
 
-def handle_method_request(request):    
+def handle_method_request(request):
     if request.name == 'set-timer':
         payload = json.loads(request.payload)
         seconds = payload['seconds']
         if seconds > 0:
-            create_timer(payload['seconds'])
-
+            create_timer(seconds)
     method_response = MethodResponse.create_from_method_request(request, 200)
     device_client.send_method_response(method_response)
 

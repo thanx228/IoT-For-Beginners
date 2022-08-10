@@ -9,9 +9,9 @@ led = GroveLed(5)
 
 id = '<ID>'
 
-client_telemetry_topic = id + '/telemetry'
-server_command_topic = id + '/commands'
-client_name = id + 'nightlight_client'
+client_telemetry_topic = f'{id}/telemetry'
+server_command_topic = f'{id}/commands'
+client_name = f'{id}nightlight_client'
 
 mqtt_client = mqtt.Client(client_name)
 mqtt_client.connect('test.mosquitto.org')

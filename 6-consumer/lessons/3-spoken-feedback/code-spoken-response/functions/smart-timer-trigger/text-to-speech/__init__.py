@@ -25,14 +25,15 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     language = req_body['language']
     voice = req_body['voice']
     text = req_body['text']
-    
+
     url = f'https://{location}.tts.speech.microsoft.com/cognitiveservices/v1'
 
     headers = {
-        'Authorization': 'Bearer ' + get_access_token(),
+        'Authorization': f'Bearer {get_access_token()}',
         'Content-Type': 'application/ssml+xml',
-        'X-Microsoft-OutputFormat': playback_format
+        'X-Microsoft-OutputFormat': playback_format,
     }
+
 
     ssml =  f'<speak version=\'1.0\' xml:lang=\'{language}\'>'
     ssml += f'<voice xml:lang=\'{language}\' name=\'{voice}\'>'
@@ -44,7 +45,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     raw_audio, sample_rate = librosa.load(io.BytesIO(response.content), sr=48000)
     resampled = librosa.resample(raw_audio, sample_rate, 44100)
-    
+
     output_buffer = io.BytesIO()
     sf.write(output_buffer, resampled, 44100, 'PCM_16', format='wav')
     output_buffer.seek(0)

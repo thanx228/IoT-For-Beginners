@@ -57,10 +57,11 @@ def convert_speech_to_text(buffer):
     url = f'https://{location}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1'
 
     headers = {
-        'Authorization': 'Bearer ' + get_access_token(),
+        'Authorization': f'Bearer {get_access_token()}',
         'Content-Type': f'audio/wav; codecs=audio/pcm; samplerate={rate}',
-        'Accept': 'application/json;text/xml'
+        'Accept': 'application/json;text/xml',
     }
+
 
     params = {
         'language': language
@@ -85,7 +86,7 @@ def get_timer_time(text):
 
     if response.status_code != 200:
         return 0
-    
+
     payload = response.json()
     return payload['seconds']
 
@@ -99,9 +100,7 @@ def process_text(text):
 def get_voice():
     url = f'https://{location}.tts.speech.microsoft.com/cognitiveservices/voices/list'
 
-    headers = {
-        'Authorization': 'Bearer ' + get_access_token()
-    }
+    headers = {'Authorization': f'Bearer {get_access_token()}'}
 
     response = requests.get(url, headers=headers)
     voices_json = json.loads(response.text)
@@ -118,10 +117,11 @@ def get_speech(text):
     url = f'https://{location}.tts.speech.microsoft.com/cognitiveservices/v1'
 
     headers = {
-        'Authorization': 'Bearer ' + get_access_token(),
+        'Authorization': f'Bearer {get_access_token()}',
         'Content-Type': 'application/ssml+xml',
-        'X-Microsoft-OutputFormat': playback_format
+        'X-Microsoft-OutputFormat': playback_format,
     }
+
 
     ssml =  f'<speak version=\'1.0\' xml:lang=\'{language}\'>'
     ssml += f'<voice xml:lang=\'{language}\' name=\'{voice}\'>'
@@ -173,12 +173,12 @@ def create_timer(total_seconds):
     announcement += 'timer started.'
     say(announcement)
 
-def handle_method_request(request):    
+def handle_method_request(request):
     if request.name == 'set-timer':
         payload = json.loads(request.payload)
         seconds = payload['seconds']
         if seconds > 0:
-            create_timer(payload['seconds'])
+            create_timer(seconds)
 
 while True:
     while not button.is_pressed():
