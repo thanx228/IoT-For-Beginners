@@ -22,7 +22,7 @@ prediction_url = '<prediction_url>'
 prediction_key = '<prediction key>'
 
 parts = prediction_url.split('/')
-endpoint = 'https://' + parts[2]
+endpoint = f'https://{parts[2]}'
 project_id = parts[6]
 iteration_name = parts[9]
 
@@ -34,7 +34,12 @@ results = predictor.detect_image(project_id, iteration_name, image)
 
 threshold = 0.3
 
-predictions = list(prediction for prediction in results.predictions if prediction.probability > threshold)
+predictions = [
+    prediction
+    for prediction in results.predictions
+    if prediction.probability > threshold
+]
+
 
 for prediction in predictions:
     print(f'{prediction.tag_name}:\t{prediction.probability * 100:.2f}%')

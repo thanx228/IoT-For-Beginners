@@ -12,10 +12,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     from_language = req_body['from_language']
     to_language = req_body['to_language']
     text = req_body['text']
-    
+
     logging.info(f'Translating {text} from {from_language} to {to_language}')
 
-    url = f'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
+    url = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
 
     headers = {
         'Ocp-Apim-Subscription-Key': translator_key,
@@ -31,6 +31,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     body = [{
         'text' : text
     }]
-    
+
     response = requests.post(url, headers=headers, params=params, json=body)
     return func.HttpResponse(response.json()[0]['translations'][0]['text'])

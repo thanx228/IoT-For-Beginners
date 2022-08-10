@@ -36,6 +36,6 @@ def main(events: List[func.EventHubEvent]):
         elif distance > 0:
             logging.info(f'Point is just outside geofence by a distance of {distance}m')
         elif distance == -999:
-            logging.info(f'Point is inside geofence')
+            logging.info('Point is inside geofence')
         else:
             logging.info(f'Point is just inside geofence by a distance of {distance}m')

@@ -25,7 +25,7 @@ prediction_url = '<prediction_url>'
 prediction_key = '<prediction key>'
 
 parts = prediction_url.split('/')
-endpoint = 'https://' + parts[2]
+endpoint = f'https://{parts[2]}'
 project_id = parts[6]
 iteration_name = parts[9]
 
@@ -37,7 +37,12 @@ results = predictor.detect_image(project_id, iteration_name, image)
 
 threshold = 0.3
 
-predictions = list(prediction for prediction in results.predictions if prediction.probability > threshold)
+predictions = [
+    prediction
+    for prediction in results.predictions
+    if prediction.probability > threshold
+]
+
 
 for prediction in predictions:
     print(f'{prediction.tag_name}:\t{prediction.probability * 100:.2f}%')
@@ -54,7 +59,7 @@ def create_polygon(prediction):
 
 to_delete = []
 
-for i in range(0, len(predictions)):
+for i in range(len(predictions)):
     polygon_1 = create_polygon(predictions[i])
 
     for j in range(i+1, len(predictions)):
@@ -81,7 +86,7 @@ with Image.open('image.jpg') as im:
         scale_top = prediction.bounding_box.top
         scale_right = prediction.bounding_box.left + prediction.bounding_box.width
         scale_bottom = prediction.bounding_box.top + prediction.bounding_box.height
-        
+
         left = scale_left * im.width
         top = scale_top * im.height
         right = scale_right * im.width

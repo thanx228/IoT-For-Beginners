@@ -9,9 +9,9 @@ from datetime import datetime
 
 id = '<ID>'
 
-client_telemetry_topic = id + '/telemetry'
-server_command_topic = id + '/commands'
-client_name = id + 'temperature_sensor_server'
+client_telemetry_topic = f'{id}/telemetry'
+server_command_topic = f'{id}/commands'
+client_name = f'{id}temperature_sensor_server'
 
 mqtt_client = mqtt.Client(client_name)
 mqtt_client.connect('test.mosquitto.org')

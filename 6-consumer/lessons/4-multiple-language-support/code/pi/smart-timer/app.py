@@ -68,10 +68,11 @@ def convert_speech_to_text(buffer):
     url = f'https://{location}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1'
 
     headers = {
-        'Authorization': 'Bearer ' + get_access_token(),
+        'Authorization': f'Bearer {get_access_token()}',
         'Content-Type': f'audio/wav; codecs=audio/pcm; samplerate={rate}',
-        'Accept': 'application/json;text/xml'
+        'Accept': 'application/json;text/xml',
     }
+
 
     params = {
         'language': language
@@ -86,7 +87,7 @@ def convert_speech_to_text(buffer):
         return ''
 
 def translate_text(text, from_language, to_language):
-    url = f'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
+    url = 'https://api.cognitive.microsofttranslator.com/translate?api-version=3.0'
 
     headers = {
         'Ocp-Apim-Subscription-Key': translator_api_key,
@@ -102,16 +103,14 @@ def translate_text(text, from_language, to_language):
     body = [{
         'text' : text
     }]
-    
+
     response = requests.post(url, headers=headers, params=params, json=body)
     return response.json()[0]['translations'][0]['text']
 
 def get_voice():
     url = f'https://{location}.tts.speech.microsoft.com/cognitiveservices/voices/list'
 
-    headers = {
-        'Authorization': 'Bearer ' + get_access_token()
-    }
+    headers = {'Authorization': f'Bearer {get_access_token()}'}
 
     response = requests.get(url, headers=headers)
     voices_json = json.loads(response.text)
@@ -128,10 +127,11 @@ def get_speech(text):
     url = f'https://{location}.tts.speech.microsoft.com/cognitiveservices/v1'
 
     headers = {
-        'Authorization': 'Bearer ' + get_access_token(),
+        'Authorization': f'Bearer {get_access_token()}',
         'Content-Type': 'application/ssml+xml',
-        'X-Microsoft-OutputFormat': playback_format
+        'X-Microsoft-OutputFormat': playback_format,
     }
+
 
     ssml =  f'<speak version=\'1.0\' xml:lang=\'{language}\'>'
     ssml += f'<voice xml:lang=\'{language}\' name=\'{voice}\'>'
@@ -190,8 +190,7 @@ def handle_method_request(request):
     payload = json.loads(request.payload)
     seconds = payload['seconds']
     if seconds > 0:
-        create_timer(payload['seconds'])
-
+        create_timer(seconds)
     method_response = MethodResponse.create_from_method_request(request, 200)
     device_client.send_method_response(method_response)
 

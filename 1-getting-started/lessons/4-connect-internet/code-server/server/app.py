@@ -5,8 +5,8 @@ import paho.mqtt.client as mqtt
 
 id = '<ID>'
 
-client_telemetry_topic = id + '/telemetry'
-client_name = id + '_nightlight_server'
+client_telemetry_topic = f'{id}/telemetry'
+client_name = f'{id}_nightlight_server'
 
 mqtt_client = mqtt.Client(client_name)
 mqtt_client.connect('test.mosquitto.org')

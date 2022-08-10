@@ -8,7 +8,7 @@ led = GroveLed(5)
 
 id = '<ID>'
 
-client_name = id + 'nightlight_client'
+client_name = f'{id}nightlight_client'
 
 mqtt_client = mqtt.Client(client_name)
 mqtt_client.connect('test.mosquitto.org')
@@ -25,5 +25,5 @@ while True:
         led.on()
     else:
         led.off()
-    
+
     time.sleep(1)

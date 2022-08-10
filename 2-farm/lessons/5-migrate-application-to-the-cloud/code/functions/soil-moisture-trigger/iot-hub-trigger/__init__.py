@@ -10,7 +10,7 @@ from azure.iot.hub.models import CloudToDeviceMethod
 
 def main(events: List[func.EventHubEvent]):
     event = events[-1]
-    
+
     body = json.loads(event.get_body().decode('utf-8'))
     device_id = event.iothub_metadata['connection-device-id']
 
@@ -24,7 +24,7 @@ def main(events: List[func.EventHubEvent]):
         direct_method = CloudToDeviceMethod(method_name='relay_off', payload='{}')
 
     logging.info(f'Sending direct method request for {direct_method.method_name} for device {device_id}')
-    
+
     registry_manager_connection_string = os.environ['REGISTRY_MANAGER_CONNECTION_STRING']
     registry_manager = IoTHubRegistryManager(registry_manager_connection_string)
 
